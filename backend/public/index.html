@@ -1,0 +1,2566 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EID - GN | Motorcycles</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #ff6b35;
+        --dark: #1a2332;
+        --light-bg: #f5f5f5;
+        --text: #333;
+        --border: #e0e0e0;
+        --success: #4caf50;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background-color: #fff;
+        color: var(--text);
+      }
+
+      /* Header */
+      header {
+        background: var(--dark);
+        color: white;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo span {
+        color: var(--primary);
+      }
+
+      nav {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: color 0.2s;
+      }
+
+      nav a:hover {
+        color: var(--primary);
+      }
+
+      .search-box {
+        flex: 1;
+        max-width: 400px;
+      }
+
+      .search-box input {
+        width: 100%;
+        padding: 0.6rem 1rem;
+        border: none;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        font-size: 0.9rem;
+      }
+
+      .search-box input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .cart-icon {
+        position: relative;
+        cursor: pointer;
+        font-size: 1.5rem;
+        transition: color 0.2s;
+      }
+
+      .cart-icon:hover {
+        color: var(--primary);
+      }
+
+      .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -10px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: bold;
+      }
+
+      /* Hero */
+      .hero {
+        background: linear-gradient(135deg, var(--dark) 0%, #2a3f5f 100%);
+        color: white;
+        padding: 3rem 2rem;
+        text-align: left;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+      }
+
+      .hero p {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.1rem;
+      }
+
+      /* Main */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .filters-section {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .sort-select,
+      .filter-select,
+      .search-input {
+        padding: 0.6rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: white;
+        cursor: pointer;
+        font-size: 0.95rem;
+      }
+
+      .search-input {
+        flex: 1;
+        min-width: 250px;
+        cursor: text;
+      }
+
+      /* Products Grid */
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .product-card {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+        cursor: pointer;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .product-image {
+        width: 100%;
+        height: 220px;
+        background: var(--light-bg);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .product-photo {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .favorite-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: white;
+        border: none;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all 0.2s;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .favorite-btn:hover {
+        background: var(--primary);
+      }
+
+      .product-info {
+        padding: 1.5rem;
+      }
+
+      .in-stock {
+        display: inline-block;
+        background: #e8f5e9;
+        color: #2e7d32;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .product-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text);
+      }
+
+      .product-price {
+        font-size: 1.3rem;
+        color: var(--primary);
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .add-to-cart-btn {
+        width: 100%;
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 0.8rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        font-weight: 600;
+        transition: background 0.2s;
+      }
+
+      .add-to-cart-btn:hover {
+        background: #e55a2b;
+      }
+
+      /* Cart Drawer */
+      .cart-drawer {
+        position: fixed;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 400px;
+        background: white;
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        transform: translateX(100%);
+        transition: transform 0.3s;
+        display: flex;
+        flex-direction: column;
+        max-width: 90vw;
+      }
+
+      .cart-drawer.open {
+        transform: translateX(0);
+      }
+
+      .cart-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .cart-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #999;
+      }
+
+      .cart-items {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1rem;
+      }
+
+      .cart-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        margin-bottom: 1rem;
+      }
+
+      .cart-item-image {
+        width: 80px;
+        height: 80px;
+        background: var(--light-bg);
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        overflow: hidden;
+        padding: 8px;
+      }
+
+      .cart-item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+
+      .cart-item-info {
+        flex: 1;
+      }
+
+      .cart-item-name {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .cart-item-price {
+        color: var(--primary);
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .quantity-control {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: fit-content;
+        margin-bottom: 0.5rem;
+      }
+
+      .quantity-btn {
+        background: var(--light-bg);
+        border: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      .remove-btn {
+        background: #ffe0e0;
+        color: #d32f2f;
+        border: none;
+        padding: 0.3rem 0.8rem;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 0.8rem;
+      }
+
+      .cart-summary {
+        padding: 1.5rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+      }
+
+      .summary-total {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .checkout-btn {
+        width: 100%;
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        transition: background 0.2s;
+      }
+
+      .checkout-btn:hover {
+        background: #e55a2b;
+      }
+
+      .empty-cart {
+        text-align: center;
+        padding: 2rem;
+        color: #999;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--success);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 4px;
+        z-index: 2000;
+        animation: slideIn 0.3s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        nav {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .products-grid {
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+          gap: 1rem;
+        }
+
+        .cart-drawer {
+          width: 100%;
+        }
+
+        .hero h1 {
+          font-size: 1.8rem;
+        }
+      }
+
+      /* Storefront refresh */
+      :root {
+        --primary: #f45b0b;
+        --dark: #151f31;
+        --light-bg: #f5f5f3;
+        --text: #152033;
+        --border: #e6e8eb;
+        --success: #12a77a;
+      }
+
+      body {
+        min-height: 100vh;
+        background: var(--light-bg);
+        color: var(--text);
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        min-height: 68px;
+        padding: 0.75rem max(5%, calc((100% - 1024px) / 2));
+        background: #3d4249;
+        gap: 1.5rem;
+        flex-wrap: nowrap;
+        box-shadow: none;
+      }
+
+      .logo {
+        flex-shrink: 0;
+        gap: 0.55rem;
+        font-size: 1rem;
+        white-space: nowrap;
+        color: white;
+        text-decoration: none;
+      }
+
+      .logo span {
+        width: 34px;
+        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid rgba(255, 255, 255, 0.75);
+        border-radius: 10px;
+        color: white;
+        font-size: 1.35rem;
+      }
+
+      nav {
+        gap: clamp(0.8rem, 2vw, 1.6rem);
+        flex-shrink: 0;
+      }
+
+      nav a {
+        padding: 0.7rem 0.25rem;
+        color: #d7d9dc;
+        font-size: 0.78rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      nav a:hover,
+      nav a.active {
+        color: var(--primary);
+      }
+
+      nav a.active {
+        border-bottom: 2px solid var(--primary);
+      }
+
+      .search-box {
+        min-width: 150px;
+        max-width: 320px;
+      }
+
+      .search-box input {
+        padding: 0.62rem 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 11px;
+        background: rgba(255, 255, 255, 0.07);
+        font-size: 0.78rem;
+      }
+
+      .cart-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 11px;
+        font-size: 1rem;
+      }
+
+      .cart-count {
+        top: -5px;
+        right: -5px;
+        width: 16px;
+        height: 16px;
+        font-size: 0.62rem;
+      }
+
+      .hero {
+        padding: 2rem max(5%, calc((100% - 1024px) / 2));
+        background: #151f31;
+      }
+
+      .hero h1 {
+        margin-bottom: 0.35rem;
+        font-size: 1.55rem;
+      }
+
+      .hero p {
+        font-size: 0.9rem;
+      }
+
+      .container {
+        width: min(100%, 1120px);
+        flex: 1;
+        padding: 1.6rem 1.5rem 1.4rem;
+      }
+
+      .filters-section {
+        margin-bottom: 1.2rem;
+      }
+
+      .sort-select,
+      .filter-select {
+        min-width: 135px;
+        padding: 0.55rem 0.8rem;
+        border-radius: 8px;
+        color: #263248;
+        font-size: 0.8rem;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.85rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .product-card {
+        padding: 0.75rem;
+        border: 1px solid #eceeef;
+        border-radius: 15px;
+        background: linear-gradient(160deg, #fff 70%, #fff4ef);
+        box-shadow: 0 5px 18px rgba(24, 35, 51, 0.08);
+        cursor: default;
+      }
+
+      .product-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 9px 22px rgba(24, 35, 51, 0.12);
+      }
+
+      .product-image {
+        height: 218px;
+        border-radius: 11px;
+        background: #f6f7f8 !important;
+      }
+
+      .product-photo {
+        object-fit: cover;
+      }
+
+      .favorite-btn {
+        top: 9px;
+        right: 9px;
+        width: 27px;
+        height: 27px;
+        color: #9da5ae;
+        font-size: 0.95rem;
+      }
+
+      .favorite-btn:hover {
+        color: white;
+      }
+
+      .image-dots {
+        position: absolute;
+        right: 0;
+        bottom: 8px;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        z-index: 1;
+      }
+
+      .image-dot {
+        width: 7px;
+        height: 7px;
+        padding: 0;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.7);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        transition: width 0.2s ease, background 0.2s ease;
+      }
+
+      .image-dot.active {
+        width: 17px;
+        background: white;
+      }
+
+      .image-dot:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 3px;
+      }
+
+      .product-info {
+        padding: 0.65rem 0 0;
+      }
+
+      .in-stock {
+        padding: 0.17rem 0.48rem;
+        margin-bottom: 0.35rem;
+        border: 1px solid #9debd4;
+        border-radius: 20px;
+        background: #dff8ef;
+        color: #078b68;
+        font-size: 0.62rem;
+      }
+
+      .product-category {
+        float: right;
+        margin-top: 0.25rem;
+        color: #a4abb4;
+        font-size: 0.5rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .product-name {
+        margin: 0.08rem 0 0.6rem;
+        font-size: 0.82rem;
+        color: #182235;
+      }
+
+      .product-price {
+        margin-bottom: 0.55rem;
+        color: var(--primary);
+        font-size: 1rem;
+        font-weight: 750;
+        white-space: nowrap;
+      }
+
+      .add-to-cart-btn {
+        padding: 0.62rem 0.5rem;
+        border-radius: 11px;
+        font-size: 0.72rem;
+      }
+
+      .page-content {
+        padding: 1.5rem;
+        border: 1px solid #eceeef;
+        border-radius: 15px;
+        background: white;
+        box-shadow: 0 5px 18px rgba(24, 35, 51, 0.06);
+      }
+
+      .page-content[hidden] {
+        display: none;
+      }
+
+      .filters-section[hidden],
+      .products-grid[hidden],
+      .search-box[hidden] {
+        display: none;
+      }
+
+      .page-content h2 {
+        margin-bottom: 0.55rem;
+        color: #182235;
+        font-size: 1.2rem;
+      }
+
+      .page-content p {
+        color: #667085;
+        line-height: 1.6;
+      }
+
+      .page-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 1rem;
+        margin-top: 1.25rem;
+      }
+
+      .page-card {
+        padding: 1rem;
+        border: 1px solid #eceeef;
+        border-radius: 11px;
+        background: #fafafa;
+      }
+
+      .page-card h3 {
+        margin-bottom: 0.4rem;
+        color: #182235;
+        font-size: 0.9rem;
+      }
+
+      .page-action {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.7rem 1rem;
+        border-radius: 9px;
+        background: var(--primary);
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      footer {
+        margin-top: auto;
+        padding: 1rem max(5%, calc((100% - 1024px) / 2)) 0.7rem;
+        background: #101721;
+        color: #e9edf3;
+        box-shadow: 0 -12px 25px rgba(17, 25, 36, 0.2);
+      }
+
+      .footer-main {
+        display: grid;
+        grid-template-columns: 1.2fr 1.2fr 1.25fr 1.3fr;
+        gap: 1.5rem;
+        padding-bottom: 0.8rem;
+      }
+
+      .footer-title {
+        margin-bottom: 0.25rem;
+        font-size: 0.68rem;
+        font-weight: 700;
+      }
+
+      .footer-title span {
+        margin-left: 0.35rem;
+        color: var(--primary);
+        font-size: 0.5rem;
+      }
+
+      .footer-label {
+        margin-bottom: 0.3rem;
+        color: #8793a3;
+        font-size: 0.52rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+      }
+
+      .footer-copy,
+      .footer-links,
+      .footer-contact,
+      .footer-trust {
+        color: #aab4c2;
+        font-size: 0.58rem;
+        line-height: 1.55;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+      }
+
+      .footer-links a,
+      .footer-trust a,
+      .footer-bottom a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .footer-links a:last-child,
+      .footer-bottom a {
+        color: #00c995;
+      }
+
+      .footer-badge {
+        display: inline-block;
+        margin-bottom: 0.25rem;
+        padding: 0.2rem 0.45rem;
+        border: 1px solid #344454;
+        border-radius: 5px;
+        color: white;
+        font-size: 0.55rem;
+        font-weight: 600;
+      }
+
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 0.55rem;
+        border-top: 1px solid #25303d;
+        color: #8490a0;
+        font-size: 0.55rem;
+      }
+
+      .filter-select {
+        display: none;
+      }
+
+      .page-content[hidden],
+      .special-page[hidden],
+      .hero[hidden],
+      .container[hidden] {
+        display: none;
+      }
+
+      .special-page {
+        width: 100%;
+        flex: 1;
+        background: #101721;
+      }
+
+      .offer-hero,
+      .about-hero {
+        display: flex;
+        min-height: 380px;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 1.5rem;
+        background:
+          radial-gradient(ellipse at 50% 70%, rgba(244, 91, 11, 0.14), transparent 55%),
+          linear-gradient(120deg, #171718, #251c19 52%, #171718);
+        color: white;
+        text-align: center;
+      }
+
+      .offer-hero-inner,
+      .about-hero-inner {
+        max-width: 700px;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        margin-bottom: 1.25rem;
+        padding: 0.35rem 0.75rem;
+        border: 1px solid rgba(244, 91, 11, 0.27);
+        border-radius: 999px;
+        background: rgba(244, 91, 11, 0.1);
+        color: #ff7b20;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .offer-hero h1,
+      .about-hero h1 {
+        margin-bottom: 0.8rem;
+        font-size: clamp(2.2rem, 5vw, 3.5rem);
+        line-height: 1.08;
+      }
+
+      .offer-hero h1 strong,
+      .about-hero h1 strong {
+        color: #ff790c;
+      }
+
+      .offer-hero p,
+      .about-hero p {
+        max-width: 560px;
+        margin: 0 auto;
+        color: #b6b7bb;
+        font-size: 0.9rem;
+        line-height: 1.7;
+      }
+
+      .offer-hero .page-action,
+      .about-hero .page-action {
+        margin-top: 1.8rem;
+      }
+
+      .about-contact-link {
+        display: inline-block;
+        margin-left: 1.25rem;
+        color: #d3d4d7;
+        font-size: 0.8rem;
+        text-decoration: none;
+      }
+
+      .about-contact-link:hover {
+        color: #ff790c;
+      }
+
+      .offer-section {
+        padding: 2rem max(5%, calc((100% - 1024px) / 2));
+        color: #f5f6f7;
+      }
+
+      .offer-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .offer-toolbar h2,
+      .about-section h2 {
+        margin-bottom: 0.35rem;
+        font-size: 1.35rem;
+      }
+
+      .offer-toolbar p,
+      .about-section .section-intro {
+        color: #9da6b2;
+        font-size: 0.78rem;
+      }
+
+      .offer-controls,
+      .offer-tabs {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .offer-tabs {
+        padding: 0.22rem;
+        border: 1px solid #29313c;
+        border-radius: 9px;
+        background: #151c26;
+      }
+
+      .offer-tabs button,
+      .offer-controls select {
+        padding: 0.55rem 0.7rem;
+        border: 0;
+        border-radius: 7px;
+        background: transparent;
+        color: #b6bdc7;
+        font-size: 0.68rem;
+      }
+
+      .offer-tabs button {
+        cursor: pointer;
+      }
+
+      .offer-tabs button.active {
+        background: var(--primary);
+        color: white;
+      }
+
+      .offer-controls select {
+        border: 1px solid #29313c;
+        background: #151c26;
+      }
+
+      .offers-empty {
+        display: grid;
+        min-height: 110px;
+        place-items: center;
+        border: 1px solid #29313c;
+        border-radius: 12px;
+        background: #171e28;
+        color: #aab1bb;
+        font-size: 0.75rem;
+        text-align: center;
+      }
+
+      .offer-benefits {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 2rem;
+        padding: 2.5rem max(8%, calc((100% - 900px) / 2));
+        border-top: 1px solid #202833;
+        color: #edf0f4;
+      }
+
+      .benefit-icon {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        margin-bottom: 0.7rem;
+        place-items: center;
+        border: 1px solid rgba(244, 91, 11, 0.22);
+        border-radius: 9px;
+        background: rgba(244, 91, 11, 0.09);
+        color: #ff790c;
+      }
+
+      .offer-benefits h3,
+      .commitment-card h3 {
+        margin-bottom: 0.45rem;
+        font-size: 0.82rem;
+      }
+
+      .offer-benefits p,
+      .commitment-card p {
+        color: #a4acb8;
+        font-size: 0.72rem;
+        line-height: 1.6;
+      }
+
+      .about-hero {
+        min-height: 390px;
+      }
+
+      .about-stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        padding: 1.5rem max(8%, calc((100% - 900px) / 2));
+        border-bottom: 1px solid #202833;
+        color: #f5f6f7;
+        text-align: center;
+      }
+
+      .about-stat + .about-stat {
+        border-left: 1px solid #252e39;
+      }
+
+      .about-stat strong {
+        display: block;
+        margin-bottom: 0.35rem;
+        font-size: 1.8rem;
+      }
+
+      .about-stat span {
+        color: #9da6b2;
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+      }
+
+      .about-section {
+        padding: 4rem max(7%, calc((100% - 960px) / 2));
+        border-bottom: 1px solid #202833;
+        color: #f5f6f7;
+        text-align: center;
+      }
+
+      .about-section .eyebrow {
+        margin-bottom: 0.7rem;
+        border: 0;
+        background: none;
+        font-size: 0.58rem;
+      }
+
+      .about-section h2 span {
+        color: #a1a7b0;
+      }
+
+      .timeline {
+        max-width: 540px;
+        margin: 2rem auto 0;
+        padding: 1.7rem;
+        border: 1px solid #29313c;
+        border-radius: 16px;
+        background: #171e28;
+        text-align: left;
+      }
+
+      .timeline-item {
+        position: relative;
+        padding: 0 0 1.3rem 1.4rem;
+        border-left: 1px solid #3b4149;
+      }
+
+      .timeline-item:last-child {
+        padding-bottom: 0;
+        border-left-color: transparent;
+      }
+
+      .timeline-item::before {
+        position: absolute;
+        top: 0.2rem;
+        left: -0.3rem;
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 50%;
+        background: var(--primary);
+        content: "";
+      }
+
+      .timeline-item time {
+        color: #ff790c;
+        font-size: 0.62rem;
+        font-weight: 700;
+      }
+
+      .timeline-item h3 {
+        margin: 0.28rem 0;
+        font-size: 0.83rem;
+      }
+
+      .timeline-item p {
+        color: #a4acb8;
+        font-size: 0.72rem;
+        line-height: 1.6;
+      }
+
+      .commitments {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+        text-align: left;
+      }
+
+      .commitment-card {
+        padding: 1.1rem;
+        border: 1px solid #29313c;
+        border-radius: 12px;
+        background: #171e28;
+      }
+
+      .network-map {
+        position: relative;
+        max-width: 620px;
+        margin: 1.7rem auto 0;
+        padding: 1rem;
+        border: 1px solid #29313c;
+        border-radius: 15px;
+        background: #171e28;
+      }
+
+      .network-map svg {
+        display: block;
+        width: 100%;
+        border-radius: 10px;
+        background: #121922;
+      }
+
+      .payments {
+        display: flex;
+        justify-content: center;
+        gap: 0.8rem;
+        margin: 1.5rem auto;
+      }
+
+      .payment-card {
+        display: grid;
+        width: 110px;
+        height: 58px;
+        padding: 0.45rem;
+        place-items: center;
+        overflow: hidden;
+        border: 1px solid #29313c;
+        border-radius: 10px;
+        background: #fff;
+      }
+
+      .payment-card img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        min-height: 0;
+        object-fit: contain;
+      }
+
+      .about-contact {
+        padding-bottom: 3rem;
+      }
+
+      .about-contact .page-action {
+        margin-top: 1.3rem;
+      }
+
+      .home-page {
+        width: 100%;
+        flex: 1;
+        background: #f7f7f5;
+      }
+
+      .home-page[hidden] {
+        display: none;
+      }
+
+      .home-hero {
+        overflow: hidden;
+        color: #f8fafc;
+        background-color: #151d2a;
+        background-image:
+          linear-gradient(rgba(138, 158, 181, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(138, 158, 181, 0.045) 1px, transparent 1px),
+          radial-gradient(ellipse at 75% 45%, rgba(52, 65, 81, 0.48), transparent 45%);
+        background-size: 16px 16px, 16px 16px, auto;
+      }
+
+      .home-hero-inner {
+        display: grid;
+        width: min(100% - 3rem, 1024px);
+        min-height: 334px;
+        margin: 0 auto;
+        grid-template-columns: 1.2fr 0.9fr;
+        align-items: center;
+        gap: 2rem;
+        padding: 2.5rem 0;
+      }
+
+      .home-hero-copy {
+        position: relative;
+        z-index: 1;
+      }
+
+      .home-eyebrow,
+      .section-divider {
+        color: #ff6a0a;
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.23em;
+        text-transform: uppercase;
+      }
+
+      .home-hero h1 {
+        max-width: 610px;
+        margin: 1.05rem 0 0.8rem;
+        font-size: clamp(2.2rem, 4vw, 3.15rem);
+        line-height: 1.06;
+      }
+
+      .home-hero h1 strong {
+        color: #ff6813;
+        font-weight: 750;
+      }
+
+      .home-hero-copy > p {
+        max-width: 480px;
+        color: #b7bfca;
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .home-hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 1.25rem;
+      }
+
+      .home-hero-actions .page-action {
+        margin: 0;
+      }
+
+      .home-hero-actions .secondary-action {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.7rem 0.9rem;
+        border: 1px solid #394351;
+        border-radius: 8px;
+        color: #e8ebef;
+        font-size: 0.78rem;
+        text-decoration: none;
+      }
+
+      .home-hero-actions .secondary-action:hover {
+        border-color: #ff6813;
+      }
+
+      .blueprint {
+        width: 100%;
+        max-width: 410px;
+        justify-self: end;
+        padding: 0.6rem;
+        border: 1px solid rgba(164, 181, 200, 0.22);
+        border-radius: 13px;
+        background: rgba(31, 41, 55, 0.5);
+      }
+
+      .blueprint svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .home-content {
+        width: min(100% - 3rem, 1024px);
+        margin: 0 auto;
+        padding: 1rem 0 2.8rem;
+      }
+
+      .section-divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        margin: 0.2rem auto 1.8rem;
+        font-size: 0.54rem;
+        text-align: center;
+      }
+
+      .section-divider::before,
+      .section-divider::after {
+        width: min(10vw, 95px);
+        height: 1px;
+        background: #ead9cd;
+        content: "";
+      }
+
+      .category-cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        margin-bottom: 2.3rem;
+      }
+
+      .category-card {
+        position: relative;
+        min-height: 126px;
+        padding: 1rem;
+        border: 1px solid #dfe7ef;
+        border-radius: 15px;
+        background: #e5eef8;
+        box-shadow: 0 9px 16px rgba(26, 42, 59, 0.16);
+        color: #18263a;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .category-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 20px rgba(26, 42, 59, 0.2);
+      }
+
+      .category-code {
+        display: inline-block;
+        padding: 0.2rem 0.4rem;
+        border: 1px solid #ced9e5;
+        border-radius: 999px;
+        color: #51667e;
+        font-size: 0.54rem;
+        letter-spacing: 0.12em;
+      }
+
+      .category-arrow {
+        position: absolute;
+        top: 0.8rem;
+        right: 0.8rem;
+        display: grid;
+        width: 26px;
+        height: 26px;
+        place-items: center;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.8);
+        color: #718198;
+        font-size: 0.9rem;
+      }
+
+      .category-icon {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        margin: 0.85rem 0 0.55rem;
+        place-items: center;
+        border: 1px solid #d7e0e9;
+        border-radius: 10px;
+        background: #f7f9fb;
+        color: #ff6813;
+      }
+
+      .category-card h3 {
+        margin-bottom: 0.28rem;
+        font-size: 0.82rem;
+      }
+
+      .category-card p {
+        color: #64758a;
+        font-size: 0.65rem;
+      }
+
+      .home-products-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: -0.5rem 0 1rem;
+      }
+
+      .home-products-heading h2 {
+        color: #172338;
+        font-size: 1.15rem;
+      }
+
+      .home-products-heading a {
+        color: #ed5a0a;
+        font-size: 0.64rem;
+        letter-spacing: 0.12em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .home-products-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.85rem;
+      }
+
+      .home-products-grid .product-card {
+        padding: 0.62rem;
+        border-radius: 13px;
+      }
+
+      .home-products-grid .product-image {
+        height: clamp(140px, 19vw, 220px);
+      }
+
+      .home-products-grid .product-info {
+        padding-top: 0.5rem;
+      }
+
+      .home-products-grid .product-name {
+        min-height: 1.9em;
+        font-size: 0.72rem;
+      }
+
+      .home-products-grid .product-price {
+        font-size: 0.84rem;
+      }
+
+      .home-products-grid .add-to-cart-btn {
+        padding: 0.55rem 0.4rem;
+        font-size: 0.65rem;
+      }
+
+      .trust-section {
+        padding: 2.5rem 1.5rem 3rem;
+        background: #101721;
+      }
+
+      .trust-section .section-divider {
+        margin-bottom: 1.5rem;
+      }
+
+      .trust-cards {
+        display: grid;
+        width: min(100%, 1024px);
+        margin: 0 auto;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .trust-card {
+        min-height: 126px;
+        padding: 1.1rem;
+        border: 1px solid #303a4a;
+        border-radius: 13px;
+        background: #151f31;
+        color: #f4f6f9;
+      }
+
+      .trust-card h3 {
+        margin: 0.55rem 0 0.4rem;
+        font-size: 0.8rem;
+      }
+
+      .trust-card p {
+        color: #c1c8d0;
+        font-size: 0.69rem;
+        line-height: 1.55;
+      }
+
+      @media (max-width: 900px) {
+        header {
+          gap: 0.9rem;
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+
+        nav {
+          gap: 0.6rem;
+          flex-direction: row;
+        }
+
+        .products-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .search-box {
+          order: 4;
+          flex-basis: 100%;
+          max-width: none;
+        }
+
+        .home-hero-inner,
+        .home-content {
+          width: min(100% - 2rem, 700px);
+        }
+
+        .home-hero-inner {
+          min-height: 0;
+        }
+
+        .home-products-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 620px) {
+        header {
+          flex-direction: row;
+          flex-wrap: wrap;
+          padding: 0.8rem 1rem;
+        }
+
+        nav {
+          order: 3;
+          width: 100%;
+          justify-content: space-between;
+          flex-direction: row;
+        }
+
+        .search-box {
+          order: 4;
+          max-width: none;
+          flex-basis: 100%;
+        }
+
+        .hero {
+          padding: 1.6rem 1rem;
+        }
+
+        .container {
+          padding: 1.2rem 0.8rem;
+        }
+
+        .products-grid {
+          gap: 0.65rem;
+        }
+
+        .product-card {
+          padding: 0.55rem;
+        }
+
+        .product-image {
+          height: 175px;
+        }
+
+        .product-price {
+          font-size: 0.85rem;
+        }
+
+        .footer-main {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 1rem;
+        }
+
+        .offer-toolbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .offer-controls {
+          flex-wrap: wrap;
+        }
+
+        .offer-benefits,
+        .commitments {
+          grid-template-columns: 1fr;
+          gap: 1.2rem;
+        }
+
+        .about-stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 1.2rem 0;
+        }
+
+        .about-stat:nth-child(3) {
+          border-left: 0;
+        }
+
+        .about-section {
+          padding: 3rem 1rem;
+        }
+
+        .offer-hero,
+        .about-hero {
+          min-height: 340px;
+          padding: 2rem 1rem;
+        }
+
+        .offer-tabs {
+          flex-wrap: wrap;
+        }
+
+        .network-map {
+          padding: 0.5rem;
+        }
+
+        .home-hero-inner {
+          grid-template-columns: 1fr;
+          gap: 1.4rem;
+          padding: 2.5rem 0;
+        }
+
+        .blueprint {
+          width: min(100%, 400px);
+          justify-self: center;
+        }
+
+        .home-content {
+          width: min(100% - 1.5rem, 620px);
+        }
+
+        .category-cards,
+        .trust-cards {
+          grid-template-columns: 1fr;
+        }
+
+        .category-card {
+          min-height: 116px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="#motorcycles" aria-label="EID - GN home"><span>✦</span> EID - GN</a>
+      <nav>
+        <a href="#motorcycles">Motorcycles</a>
+        <a href="#tricycles">Tricycles</a>
+        <a href="#pieces">Pieces</a>
+        <a href="#promotions">Promotions</a>
+        <a href="#about">About</a>
+      </nav>
+      <div class="search-box">
+        <input
+          type="text"
+          id="headerSearch"
+          placeholder="Looking for a part, motorcycle..."
+        />
+      </div>
+      <div class="cart-icon" id="cartToggle">
+        🛒
+        <div class="cart-count" id="cartCount" style="display: none">0</div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h1>Motorcycles</h1>
+      <p>Filter by category or compatible model</p>
+    </section>
+
+    <div class="container">
+      <div class="filters-section">
+        <select id="sortSelect" class="sort-select">
+          <option value="recent">More recent</option>
+          <option value="price-low">Price: low to high</option>
+          <option value="price-high">Price: high to low</option>
+        </select>
+
+        <select id="categorySelect" class="filter-select" aria-label="Filter by category"></select>
+      </div>
+
+      <div class="products-grid" id="productsGrid"></div>
+    </div>
+    <main class="special-page" id="specialPage" hidden></main>
+
+    <div class="cart-drawer" id="cartDrawer">
+      <div class="cart-header">
+        <h2>Your cart</h2>
+        <button class="cart-close" id="cartClose">✕</button>
+      </div>
+
+      <div class="cart-items" id="cartItems"></div>
+
+      <div class="cart-summary" id="cartSummary" style="display: none">
+        <div class="summary-row">
+          <span>Subtotal:</span>
+          <span id="subtotal">0 GNF</span>
+        </div>
+        <div class="summary-row">
+          <span>Delivery:</span>
+          <span>Free</span>
+        </div>
+        <div class="summary-total">
+          <span>Total:</span>
+          <span id="total">0 GNF</span>
+        </div>
+        <button class="checkout-btn">Proceed to checkout</button>
+      </div>
+    </div>
+
+    <div id="toast"></div>
+    <footer>
+      <div class="footer-main">
+        <div>
+          <div class="footer-title">EID - GN <span>ETS-EIDF</span></div>
+          <p class="footer-copy">Certified motorcycles, tricycles &amp; parts in Upper Guinea.<br>RCGN: GN.TCC.2026.A.06542</p>
+        </div>
+        <div>
+          <div class="footer-label">CATALOG</div>
+          <div class="footer-links">
+            <a href="#motorcycles">Motorcycles</a><a href="#tricycles">Tricycles</a><a href="#pieces">Pieces</a><a href="#promotions">Promotions</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-label">CONTACT US</div>
+          <p class="footer-contact">☎ &nbsp;+224661615859<br>⌖ &nbsp;Kankankoura ,Kissidougou</p>
+        </div>
+        <div>
+          <div class="footer-badge">♧ &nbsp;Orange Money &amp; MTN MoMo</div>
+          <p class="footer-trust">Mentions &nbsp;·&nbsp; Confidentiality &nbsp;·&nbsp; Guarantee</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 EID-MULTISERVICE · Upper Guinea</span>
+        <a href="https://wa.me/224661615859">WhatsApp Support ↗</a>
+      </div>
+    </footer>
+
+    <script>
+      const motorcycleGallery = [
+        "./images/photo-1554223789-df81106a45ed.jpg",
+        "./images/photo-1558981806-ec527fa84c39.jpg",
+        "./images/photo-1558981403-c5f9899a28bc.jpg",
+        "./images/photo-1609630875171-b1321377ee65.jpg",
+        "./images/photo-1763244737839-220b4cd0259e.jpg",
+      ];
+      const tricycleGallery = [
+        "./images/bajaj-re.png",
+        "./images/tvs-king.png",
+      ];
+      const partsGallery = [
+        "./images/shock-absorber.png",
+        "./images/oil-filter.png",
+        "./images/brake-pad.png",
+        "./images/drive-chain.png",
+        "./images/battery.png",
+      ];
+
+      const products = [
+        {
+          id: 1,
+          name: "Neo",
+          image: "./images/photo-1554223789-df81106a45ed.jpg",
+          color: "#3498db",
+          price: 11000000,
+          category: "Motorcycles",
+          section: "motorcycles",
+          images: motorcycleGallery,
+          specs: { Moteur: "125cc", Vitesse: "100 km/h", Réservoir: "7L" },
+        },
+        {
+          id: 2,
+          name: "TVS Sport 100",
+          image: "./images/photo-1558981806-ec527fa84c39.jpg",
+          color: "#e74c3c",
+          price: 8200000,
+          category: "Motorcycles",
+          section: "motorcycles",
+          images: motorcycleGallery,
+          specs: { Moteur: "100cc", Vitesse: "110 km/h", Réservoir: "10L" },
+        },
+        {
+          id: 3,
+          name: "Haojue CG125",
+          image: "./images/photo-1558981403-c5f9899a28bc.jpg",
+          color: "#2ecc71",
+          price: 9800000,
+          category: "Motorcycles",
+          section: "motorcycles",
+          images: motorcycleGallery,
+          specs: { Moteur: "125cc", Vitesse: "115 km/h", Réservoir: "12L" },
+        },
+        {
+          id: 4,
+          name: "Bajaj Boxer 150",
+          image: "./images/photo-1609630875171-b1321377ee65.jpg",
+          color: "#f39c12",
+          price: 12500000,
+          category: "Motorcycles",
+          section: "motorcycles",
+          images: motorcycleGallery,
+          specs: { Moteur: "150cc", Vitesse: "120 km/h", Réservoir: "14L" },
+        },
+        {
+          id: 5,
+          name: "Bajaj RE",
+          image: "./images/bajaj-re.png",
+          images: tricycleGallery,
+          color: "#e9a00e",
+          price: 30000000,
+          category: "Tricycles",
+          section: "tricycles",
+        },
+        {
+          id: 6,
+          name: "TVS King",
+          image: "./images/tvs-king.png",
+          images: tricycleGallery,
+          color: "#a67428",
+          price: 28000000,
+          category: "Tricycles",
+          section: "tricycles",
+        },
+        {
+          id: 7,
+          name: "Reinforced rear shock absorber",
+          image: "./images/shock-absorber.png",
+          images: partsGallery,
+          color: "#6f7a80",
+          price: 145000,
+          category: "Spare parts",
+          section: "pieces",
+        },
+        {
+          id: 8,
+          name: "Engine oil filter",
+          image: "./images/oil-filter.png",
+          images: partsGallery,
+          color: "#45484a",
+          price: 55000,
+          category: "Spare parts",
+          section: "pieces",
+        },
+        {
+          id: 9,
+          name: "Front/rear brake pad kit",
+          image: "./images/brake-pad.png",
+          images: partsGallery,
+          color: "#9a9b98",
+          price: 85000,
+          category: "Spare parts",
+          section: "pieces",
+        },
+        {
+          id: 10,
+          name: "Reinforced drive chain",
+          image: "./images/drive-chain.png",
+          images: partsGallery,
+          color: "#99734c",
+          price: 120000,
+          category: "Spare parts",
+          section: "pieces",
+        },
+        {
+          id: 11,
+          name: "12V battery for CG125",
+          image: "./images/battery.png",
+          images: partsGallery,
+          color: "#333c48",
+          price: 250000,
+          category: "Spare parts",
+          section: "pieces",
+        },
+      ];
+
+      // État global
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+      let searchQuery = "";
+      let categoryFilter = "all";
+      let sortBy = "recent";
+      const productImageIndexes = {};
+
+      // Éléments DOM
+      const productsGrid = document.getElementById("productsGrid");
+      const cartToggle = document.getElementById("cartToggle");
+      const cartClose = document.getElementById("cartClose");
+      const cartDrawer = document.getElementById("cartDrawer");
+      const cartItems = document.getElementById("cartItems");
+      const cartCount = document.getElementById("cartCount");
+      const cartSummary = document.getElementById("cartSummary");
+      const sortSelect = document.getElementById("sortSelect");
+      const categorySelect = document.getElementById("categorySelect");
+      const headerSearch = document.getElementById("headerSearch");
+      const toastContainer = document.getElementById("toast");
+      const heroTitle = document.querySelector(".hero h1");
+      const heroDescription = document.querySelector(".hero p");
+      const heroSection = document.querySelector(".hero");
+      const catalogContainer = document.querySelector(".container");
+      const filtersSection = document.querySelector(".filters-section");
+      const searchBox = document.querySelector(".search-box");
+      const specialPage = document.getElementById("specialPage");
+      const navLinks = document.querySelectorAll("nav a");
+
+      const pages = {
+        motorcycles: {
+          documentTitle: "EID - GN | Motorcycles",
+          special: "home",
+        },
+        tricycles: {
+          title: "Tricycles",
+          description: "Filter by category or compatible model",
+          documentTitle: "EID - GN | Tricycles",
+          section: "tricycles",
+        },
+        pieces: {
+          title: "Spare parts",
+          description: "Filter by category or compatible model",
+          documentTitle: "EID - GN | Spare parts",
+          section: "pieces",
+        },
+        promotions: {
+          documentTitle: "EID - GN | Promotions",
+          special: "promotions",
+        },
+        about: {
+          documentTitle: "EID - GN | About",
+          special: "about",
+        },
+      };
+
+      const homeProductIds = [1, 5, 2, 3, 7, 8, 9, 6];
+
+      function renderHomePage() {
+        return `
+          <section class="home-hero">
+            <div class="home-hero-inner">
+              <div class="home-hero-copy">
+                <span class="home-eyebrow">Verified catalog &nbsp;·&nbsp; Kankan, Guinea</span>
+                <h1>The exact part<br>for your motorcycle.<br><strong>Checked before leaving.</strong></h1>
+                <p>Motorcycles, tricycles and spare parts, filtered by compatible model. Delivery in 24 to 48 hours in Kankan.</p>
+                <div class="home-hero-actions">
+                  <a class="page-action" href="#pieces">Find a part</a>
+                  <a class="secondary-action" href="#motorcycles">See the motorcycles</a>
+                </div>
+              </div>
+              <div class="blueprint">
+                <svg viewBox="0 0 420 250" role="img" aria-label="Technical motorcycle compatibility sketch">
+                  <g fill="none" stroke="#bec8d2" stroke-width="1.5">
+                    <circle cx="92" cy="181" r="44"/><circle cx="319" cy="181" r="44"/>
+                    <path d="M92 181 149 77l95 104H92l57-104 49 1m-49-1 48 15 48 89m-48-89 16-22h40m-56 22h45"/>
+                    <path d="M244 181h30m-125-104 15-12m46 13 14-13m48 28h39"/>
+                  </g>
+                  <g fill="#e6edf4" font-family="monospace" font-size="9" letter-spacing="1">
+                    <text x="204" y="49">FILTRE À HUILE</text><text x="320" y="106">BATTERIE 12V</text>
+                    <text x="104" y="61">CHAÎNE · 428</text><text x="272" y="228">FIG. 01 — REF. COMPATIBILITY</text>
+                  </g>
+                  <g fill="none" stroke="#c8d0d9" stroke-width="1">
+                    <path d="m174 73 34-21m31 41 35-20m-173-4 28 8"/>
+                    <circle cx="173" cy="73" r="2" fill="#ff6813" stroke="none"/>
+                    <circle cx="241" cy="93" r="2" fill="#ff6813" stroke="none"/>
+                    <circle cx="94" cy="97" r="2" fill="#ff6813" stroke="none"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </section>
+          <div class="home-content">
+            <div class="section-divider">Explore the catalogue</div>
+            <section class="category-cards" aria-label="Browse catalog categories">
+              <a class="category-card" href="#motorcycles">
+                <span class="category-code">CAT. 01</span><span class="category-arrow">↗</span>
+                <span class="category-icon"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="17" r="2.5"/><circle cx="18" cy="17" r="2.5"/><path d="m6 17 4-7 4 7H6zm4-7h4l4 7m-6-10h3"/></svg></span>
+                <h3>Motorcycles</h3><p>New and used, verified</p>
+              </a>
+              <a class="category-card" href="#tricycles">
+                <span class="category-code">CAT. 02</span><span class="category-arrow">↗</span>
+                <span class="category-icon"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="18" r="2.3"/><circle cx="18" cy="18" r="2.3"/><path d="M4 16V9h11l4 5v2M8 9l2-4h5l2 4M10 5v4m-6 7h15"/></svg></span>
+                <h3>Tricycles</h3><p>Transport and goods</p>
+              </a>
+              <a class="category-card" href="#pieces">
+                <span class="category-code">CAT. 03</span><span class="category-arrow">↗</span>
+                <span class="category-icon"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.5 6.5a5 5 0 0 0-6.2 6.2L3.5 17.5a2.1 2.1 0 0 0 3 3l4.8-4.8a5 5 0 0 0 6.2-6.2l-3 3-3-3 3-3z"/></svg></span>
+                <h3>Spare parts</h3><p>Filterable by compatible model</p>
+              </a>
+            </section>
+            <div class="section-divider">Recent arrivals</div>
+            <section id="new-products">
+              <div class="home-products-heading">
+                <h2>New products</h2>
+                <a href="#new-products" onclick="event.preventDefault(); document.getElementById('new-products').scrollIntoView({ behavior: 'smooth' })">See all &nbsp;→</a>
+              </div>
+              <div class="home-products-grid" id="homeProductsGrid"></div>
+            </section>
+          </div>
+          <section class="trust-section">
+            <div class="section-divider">Why trust us</div>
+            <div class="trust-cards">
+              <article class="trust-card"><span class="benefit-icon">♧</span><h3>Secure payment</h3><p>Orange Money &amp; MTN MoMo via LengoPay/Djomy. Server verification required.</p></article>
+              <article class="trust-card"><span class="benefit-icon">♧</span><h3>Fast delivery</h3><p>24–48 hours in Kankan, 48–72 hours for other regions of Guinea.</p></article>
+              <article class="trust-card"><span class="benefit-icon">◎</span><h3>Compatibility verified</h3><p>Parts filtered by exact model. No more part number errors.</p></article>
+            </div>
+          </section>
+        `;
+      }
+
+      function renderPromotionsPage() {
+        const offers = products.filter((product) => product.discount > 0);
+        const maximumDiscount = offers.reduce(
+          (highest, product) => Math.max(highest, product.discount),
+          0,
+        );
+
+        return `
+          <section class="offer-hero">
+            <div class="offer-hero-inner">
+              <span class="eyebrow">⚡ &nbsp; Limited-time offers</span>
+              <h1>Up to <strong>${maximumDiscount}% off</strong> the entire catalog</h1>
+              <p>${offers.length} current offers on motorcycles, tricycles and spare parts. Save up to <strong>${maximumDiscount.toLocaleString("en-US")} GNF</strong> on your order.</p>
+              <a class="page-action" href="#offer-list" onclick="event.preventDefault(); document.getElementById('offer-list').scrollIntoView({ behavior: 'smooth' })">View offers &nbsp;→</a>
+            </div>
+          </section>
+          <section class="offer-section" id="offer-list">
+            <div class="offer-toolbar">
+              <div>
+                <h2>All offers</h2>
+                <p>${offers.length} discounted items</p>
+              </div>
+              <div class="offer-controls">
+                <div class="offer-tabs" aria-label="Filter offers by category">
+                  <button class="active" type="button" data-offer-filter="all" aria-pressed="true">All</button>
+                  <button type="button" data-offer-filter="motorcycles" aria-pressed="false">Motorcycles</button>
+                  <button type="button" data-offer-filter="tricycles" aria-pressed="false">Tricycles</button>
+                  <button type="button" data-offer-filter="pieces" aria-pressed="false">Pieces</button>
+                </div>
+                <select aria-label="Sort offers">
+                  <option>Best discount</option>
+                </select>
+              </div>
+            </div>
+            <div class="offers-empty">${offers.length ? "Offers are loading." : "No promotions match your filter at the moment."}</div>
+          </section>
+          <section class="offer-benefits">
+            <article>
+              <span class="benefit-icon">◷</span>
+              <h3>Limited-time offers</h3>
+              <p>Take advantage of this offer before the end of the promotional period indicated on each product.</p>
+            </article>
+            <article>
+              <span class="benefit-icon">◇</span>
+              <h3>Actual stock verified</h3>
+              <p>Every product on sale is physically in stock. No unpleasant surprises at checkout.</p>
+            </article>
+            <article>
+              <span class="benefit-icon">♨</span>
+              <h3>Mobile money payment</h3>
+              <p>Orange Money, MTN MoMo or cash on delivery. No hidden fees.</p>
+            </article>
+          </section>
+        `;
+      }
+
+      function renderAboutPage() {
+        return `
+          <section class="about-hero">
+            <div class="about-hero-inner">
+              <span class="eyebrow">• &nbsp; Since 2016 · Kissidougou, Upper Guinea</span>
+              <h1>From the workshop in Kissidougou<br><strong>to the whole country</strong></h1>
+              <p>A story of trust born neighborhood by neighborhood in Kissidougou, which today delivers to all regions of Guinea.</p>
+              <a class="page-action" href="#motorcycles">Explore the catalog &nbsp;→</a>
+              <a class="about-contact-link" href="https://wa.me/224661615859">Contact us</a>
+            </div>
+          </section>
+          <section class="about-stats" aria-label="Company figures">
+            <div class="about-stat"><strong data-count-target="10" data-count-suffix="+">0+</strong><span>YEARS OF ACTIVITY</span></div>
+            <div class="about-stat"><strong data-count-target="0" data-count-suffix="+">0+</strong><span>CUSTOMERS SERVED</span></div>
+            <div class="about-stat"><strong data-count-target="8">0</strong><span>REGIONS COVERED</span></div>
+            <div class="about-stat"><strong data-count-target="48" data-count-suffix=" h">0 h</strong><span>MAXIMUM DELIVERY TIME</span></div>
+          </section>
+          <section class="about-section">
+            <span class="eyebrow">Our journey</span>
+            <h2>10 years of growth<br><span>at your service</span></h2>
+            <div class="timeline">
+              <article class="timeline-item"><time>2016</time><h3>The origin</h3><p>Opening of the first spare parts workshop in Kissidougou, district by district.</p></article>
+              <article class="timeline-item"><time>2019</time><h3>Cap tricycles</h3><p>Extension of the business to utility tricycles for local traders.</p></article>
+              <article class="timeline-item"><time>2022</time><h3>New motorcycles</h3><p>Launch of sales of new and used motorcycles checked by our mechanics.</p></article>
+              <article class="timeline-item"><time>2025</time><h3>Digitalization</h3><p>Online catalog, mobile money payment, tracked delivery — modern commerce is arriving in Upper Guinea.</p></article>
+            </div>
+          </section>
+          <section class="about-section">
+            <span class="eyebrow">Our commitments</span>
+            <h2>What commits us</h2>
+            <div class="commitments">
+              <article class="commitment-card"><span class="benefit-icon">◎</span><h3>Guaranteed compatibility</h3><p>Each part is checked and filtered by exact model before shipping. No more part number errors that cost you a day at the workshop.</p></article>
+              <article class="commitment-card"><span class="benefit-icon">⌖</span><h3>National Network</h3><p>From our distribution center in Kissidougou, we now deliver to all 8 regions of the country within a maximum of 48 hours, with real-time tracking.</p></article>
+              <article class="commitment-card"><span class="benefit-icon">♧</span><h3>After-sales service</h3><p>A technical team is available by phone and WhatsApp to assist you with choosing parts and troubleshooting.</p></article>
+            </div>
+          </section>
+          <section class="about-section">
+            <h2>A network that covers<br><span>the entire country</span></h2>
+            <p class="section-intro">From our distribution center in Kissidougou, to every region of Guinea<br>within a maximum of 48 hours.</p>
+            <div class="network-map">
+              <svg viewBox="0 0 640 390" role="img" aria-label="Illustrated delivery network across Guinea">
+                <path d="M92 74 168 48l69 19 43-12 38 26 45-7 31 34 52 3 35 38-25 34 13 43-29 21 5 49-46 14-17-40-35-20-20-56-53-18-32-37-52 3-34-31-45 8-20-32-38-2z" fill="#19222d" stroke="#cf5c1f" stroke-width="2"/>
+                <g stroke="#ed6b20" stroke-width="2" stroke-dasharray="6 7" opacity=".8">
+                  <path d="M330 185 190 120M330 185 245 217M330 185 412 108M330 185 470 192M330 185 390 290M330 185  
+                </g>
+                <g fill="#f97316" stroke="#101721" stroke-width="4">
+                  <circle cx="330" cy="185" r="10"/><circle cx="190" cy="120" r="6"/><circle cx="245" cy="217" r="6"/><circle cx="412" cy="108" r="6"/><circle cx="470" cy="192" r="6"/><circle cx="390" cy="290" r="6"/><circle cx="130" cy="230" r="6"/>
+                </g>
+                <g fill="#dbe1e8" font-family="Arial,sans-serif" font-size="12">
+                  <text x="342" y="181" fill="#f97316" font-weight="bold">KANKAN (HUB CENTRAL)</text><text x="171" y="111">Labé</text><text x="223" y="238">Kindia</text><text x="393" y="98">Kouroussa</text><text x="477" y="198">Faranah</text><text x="380" y="312">N'Zérékoré</text><text x="101" y="250">Conakry</text>
+                </g>
+              </svg>
+            </div>
+          </section>
+          <section class="about-section about-contact">
+            <span class="eyebrow">Payment</span>
+            <h2>Pay with confidence</h2>
+            <p class="section-intro">Mobile Money and bank card, without intermediaries or hidden fees.</p>
+            <div class="payments" aria-label="Accepted payment methods">
+              <div class="payment-card"><img src="./images/orange-money.png" alt="Orange Money" loading="lazy" ></div>
+              <div class="payment-card"><img src="./images/mtn-momo.jpg" alt="MTN Mobile Money" loading="lazy"></div>
+              <div class="payment-card"><img src="./images/visa.png" alt="Visa" loading="lazy"></div>
+            </div>
+            <a class="page-action" href="#motorcycles">Discover our motorcycles &amp; parts &nbsp;→</a>
+            <p class="section-intro">EID-MULTISERVICE · Kissidougou, Upper Guinea · Since 2016</p>
+          </section>
+        `;
+      }
+
+      function animateAboutCounters() {
+        const counters = specialPage.querySelectorAll("[data-count-target]");
+        const reducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        const startAnimation = () => {
+          counters.forEach((counter) => {
+            const target = Number(counter.dataset.countTarget);
+            const suffix = counter.dataset.countSuffix || "";
+
+            if (reducedMotion || target === 0) {
+              counter.textContent = `${target.toLocaleString("en-US")}${suffix}`;
+              return;
+            }
+
+            const duration = 1400;
+            const startTime = performance.now();
+            const updateCounter = (currentTime) => {
+              const progress = Math.min((currentTime - startTime) / duration, 1);
+              const easedProgress = 1 - (1 - progress) ** 3;
+              const currentValue = Math.floor(target * easedProgress);
+
+              counter.textContent = `${currentValue.toLocaleString("en-US")}${suffix}`;
+              if (progress < 1) requestAnimationFrame(updateCounter);
+            };
+
+            requestAnimationFrame(updateCounter);
+          });
+        };
+
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (!entry.isIntersecting) return;
+            observer.disconnect();
+            startAnimation();
+          },
+          { threshold: 0.2 },
+        );
+        observer.observe(specialPage.querySelector(".about-stats"));
+      }
+
+      function renderPage() {
+        const pageKey = window.location.hash.slice(1) || "motorcycles";
+        const page = pages[pageKey] || pages.motorcycles;
+
+        document.title = page.documentTitle;
+
+        const isCatalog = Boolean(page.section);
+        heroSection.hidden = !isCatalog;
+        catalogContainer.hidden = !isCatalog;
+        searchBox.hidden = false;
+        filtersSection.hidden = !isCatalog;
+        specialPage.hidden = isCatalog;
+        if (isCatalog) {
+          specialPage.className = "special-page";
+          heroTitle.textContent = page.title;
+          heroDescription.textContent = page.description;
+          categoryFilter = "all";
+          categorySelect.value = "all";
+          renderProducts();
+        } else {
+          specialPage.className =
+            page.special === "home" ? "home-page" : "special-page";
+          specialPage.innerHTML =
+            page.special === "home"
+              ? renderHomePage()
+              : page.special === "promotions"
+                ? renderPromotionsPage()
+                : renderAboutPage();
+          if (page.special === "home") renderProducts();
+          if (page.special === "about") animateAboutCounters();
+        }
+
+        navLinks.forEach((link) => {
+          const isActive = link.hash === `#${pageKey}`;
+          link.classList.toggle("active", isActive);
+          if (isActive) {
+            link.setAttribute("aria-current", "page");
+          } else {
+            link.removeAttribute("aria-current");
+          }
+        });
+
+        window.scrollTo(0, 0);
+      }
+
+      // Initialiser catégories
+      function initCategories() {
+        const categories = ["all", ...new Set(products.map((p) => p.category))];
+        categories.forEach((cat) => {
+          const option = document.createElement("option");
+          option.value = cat;
+          option.textContent = cat === "all" ? "All categories" : cat;
+          categorySelect.appendChild(option);
+        });
+      }
+
+      // Afficher produits
+      function renderProducts() {
+        const page = pages[window.location.hash.slice(1) || "motorcycles"];
+        const isHome = page?.special === "home";
+        let filtered = products.filter((p) => {
+          const matchSearch = p.name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
+          const matchCategory =
+            categoryFilter === "all" || p.category === categoryFilter;
+          const matchPage = isHome
+            ? homeProductIds.includes(p.id)
+            : p.section === page?.section;
+          return matchPage && matchSearch && matchCategory;
+        });
+
+        const getProductImages = (product) => [
+          product.image,
+          ...(product.images || []).filter((image) => image !== product.image),
+        ];
+
+        filtered.sort((a, b) => {
+          if (isHome && sortBy === "recent") {
+            return homeProductIds.indexOf(a.id) - homeProductIds.indexOf(b.id);
+          }
+          if (sortBy === "recent") return a.id - b.id;
+          if (sortBy === "price-low") return a.price - b.price;
+          if (sortBy === "price-high") return b.price - a.price;
+        });
+
+        const targetGrid = isHome
+          ? specialPage.querySelector("#homeProductsGrid")
+          : productsGrid;
+        if (!targetGrid) return;
+
+        targetGrid.innerHTML = filtered
+          .map(
+            (product) => {
+              const images = getProductImages(product);
+              const selectedImageIndex =
+                productImageIndexes[product.id] || 0;
+              const selectedImage = images[selectedImageIndex] || images[0];
+
+              return `
+                <div class="product-card">
+                    <div class="product-image" style="background-color: ${product.color}20;">
+                        <img class="product-photo" src="${selectedImage}" alt="${product.name}" loading="lazy">
+                        <button class="favorite-btn" onclick="toggleFavorite(${product.id})" style="position: absolute; top: 10px; right: 10px;">
+                            ${favorites.includes(product.id) ? "❤️" : "🤍"}
+                        </button>
+                        <div class="image-dots" role="group" aria-label="${product.name} photos">
+                          ${images
+                            .map(
+                              (_, index) => `
+                                <button
+                                  class="image-dot${index === selectedImageIndex ? " active" : ""}"
+                                  type="button"
+                                  data-product-id="${product.id}"
+                                  data-image-index="${index}"
+                                  aria-label="Show photo ${index + 1} of ${images.length}"
+                                  aria-pressed="${index === selectedImageIndex}"
+                                ></button>
+                              `,
+                            )
+                            .join("")}
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="in-stock">In stock</div>
+                        <span class="product-category">${product.category}</span>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">${product.price.toLocaleString("en-US")} GNF</div>
+                        <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
+                            🛒 Add to cart
+                        </button>
+                    </div>
+                </div>
+              `;
+            },
+          )
+          .join("");
+      }
+
+      // Ajouter au panier
+      function addToCart(productId) {
+        const product = products.find((p) => p.id === productId);
+        const existingItem = cart.find((item) => item.id === productId);
+
+        if (existingItem) {
+          existingItem.quantity++;
+        } else {
+          cart.push({ ...product, quantity: 1 });
+        }
+
+        saveCart();
+        showToast(`${product.name} added to cart`);
+        renderCart();
+      }
+
+      // Retirer du panier
+      function removeFromCart(productId) {
+        cart = cart.filter((item) => item.id !== productId);
+        saveCart();
+        renderCart();
+      }
+
+      // Modifier quantité
+      function updateQuantity(productId, quantity) {
+        if (quantity <= 0) {
+          removeFromCart(productId);
+        } else {
+          const item = cart.find((i) => i.id === productId);
+          if (item) item.quantity = quantity;
+          saveCart();
+          renderCart();
+        }
+      }
+
+      // Afficher panier
+      function renderCart() {
+        if (cart.length === 0) {
+          cartItems.innerHTML =
+            '<div class="empty-cart"><p>Your cart is empty</p></div>';
+          cartSummary.style.display = "none";
+        } else {
+          cartItems.innerHTML = cart
+            .map(
+              (item) => `
+                    <div class="cart-item">
+                        <div class="cart-item-image" style="background-color: ${item.color}30;">
+                            <img src="${item.image || products.find((product) => product.id === item.id)?.image || ""}" alt="${item.name}" loading="lazy">
+                        </div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">${item.price.toLocaleString("en-US")} GNF</div>
+                            <div class="quantity-control">
+                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">−</button>
+                                <span>${item.quantity}</span>
+                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                            </div>
+                            <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+                        </div>
+                    </div>
+                `,
+            )
+            .join("");
+
+          const total = cart.reduce(
+            (sum, item) => sum + item.price * item.quantity,
+            0,
+          );
+          document.getElementById("subtotal").textContent =
+            total.toLocaleString("en-US") + " GNF";
+          document.getElementById("total").textContent =
+            total.toLocaleString("en-US") + " GNF";
+          cartSummary.style.display = "block";
+        }
+
+        // Mettre à jour le compteur
+        if (cart.length > 0) {
+          cartCount.style.display = "flex";
+          cartCount.textContent = cart.length;
+        } else {
+          cartCount.style.display = "none";
+        }
+      }
+
+      // Toggle favori
+      function toggleFavorite(productId) {
+        if (favorites.includes(productId)) {
+          favorites = favorites.filter((id) => id !== productId);
+        } else {
+          favorites.push(productId);
+        }
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+        renderProducts();
+      }
+
+      // Toast
+      function showToast(message) {
+        toastContainer.textContent = message;
+        toastContainer.className = "toast";
+        setTimeout(() => {
+          toastContainer.className = "";
+        }, 3000);
+      }
+
+      // Sauvegarder panier
+      function saveCart() {
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
+
+      // Event listeners
+      function handleProductGalleryClick(event) {
+        const dot = event.target.closest("[data-product-id][data-image-index]");
+        if (!dot) return;
+
+        const product = products.find(
+          (item) => item.id === Number(dot.dataset.productId),
+        );
+        if (!product) return;
+
+        const images = [
+          product.image,
+          ...(product.images || []).filter(
+            (image) => image !== product.image,
+          ),
+        ];
+        const imageIndex = Number(dot.dataset.imageIndex);
+        const image = images[imageIndex];
+        if (!image) return;
+
+        const card = dot.closest(".product-card");
+        productImageIndexes[product.id] = imageIndex;
+        card.querySelector(".product-photo").src = image;
+        card.querySelectorAll(".image-dot").forEach((imageDot, index) => {
+          const isActive = index === imageIndex;
+          imageDot.classList.toggle("active", isActive);
+          imageDot.setAttribute("aria-pressed", String(isActive));
+        });
+      }
+
+      productsGrid.addEventListener("click", handleProductGalleryClick);
+      specialPage.addEventListener("click", handleProductGalleryClick);
+
+      cartToggle.addEventListener("click", () => {
+        cartDrawer.classList.toggle("open");
+      });
+
+      cartClose.addEventListener("click", () => {
+        cartDrawer.classList.remove("open");
+      });
+
+      sortSelect.addEventListener("change", (e) => {
+        sortBy = e.target.value;
+        renderProducts();
+      });
+
+      categorySelect.addEventListener("change", (e) => {
+        categoryFilter = e.target.value;
+        renderProducts();
+      });
+
+      headerSearch.addEventListener("input", (e) => {
+        searchQuery = e.target.value;
+        const currentPage = window.location.hash.slice(1) || "motorcycles";
+        if (
+          !pages[currentPage]?.section &&
+          pages[currentPage]?.special !== "home"
+        ) {
+          window.location.hash = "motorcycles";
+        } else {
+          renderProducts();
+        }
+      });
+
+      specialPage.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-offer-filter]");
+        if (!button) return;
+
+        const selectedSection = button.dataset.offerFilter;
+        const offers = products.filter(
+          (product) =>
+            product.discount > 0 &&
+            (selectedSection === "all" || product.section === selectedSection),
+        );
+
+        specialPage.querySelectorAll("[data-offer-filter]").forEach((tab) => {
+          const isActive = tab === button;
+          tab.classList.toggle("active", isActive);
+          tab.setAttribute("aria-pressed", String(isActive));
+        });
+        specialPage.querySelector(".offer-toolbar p").textContent =
+          `${offers.length} discounted items`;
+        specialPage.querySelector(".offers-empty").textContent = offers.length
+          ? "Offers are loading."
+          : "No promotions match your filter at the moment.";
+      });
+
+      // Initialisation
+      initCategories();
+      renderCart();
+      window.addEventListener("hashchange", renderPage);
+      renderPage();
+    </script>
+  </body>
+</html>
