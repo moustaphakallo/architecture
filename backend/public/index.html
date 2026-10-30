@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <title>EID - GN | Motorcycles</title>
     <style>
       * {
@@ -1773,7 +1774,7 @@
         </div>
         <div>
           <div class="footer-label">CONTACT US</div>
-          <p class="footer-contact">☎ &nbsp;+224661615859<br>⌖ &nbsp;Kankankoura ,Kissidougou</p>
+          <p class="footer-contact">☎ &nbsp;<a href="tel:+224661615859">+224 661 61 58 59</a><br>⌖ &nbsp;Kissidougou, Guinée<br>✉ &nbsp;<a href="mailto:contact@kissidougoumoto.gn">contact@kissidougoumoto.gn</a><br>♙ &nbsp;Moustapha Kallo</p>
         </div>
         <div>
           <div class="footer-badge">♧ &nbsp;Orange Money &amp; MTN MoMo</div>
@@ -1782,7 +1783,7 @@
       </div>
       <div class="footer-bottom">
         <span>© 2026 EID-MULTISERVICE · Upper Guinea</span>
-        <a href="https://wa.me/224661615859">WhatsApp Support ↗</a>
+        <a href="https://wa.me/224661615859?text=Bonjour%20Moustapha%20Kallo%2C%20j%27ai%20besoin%20d%27informations." target="_blank" rel="noopener">WhatsApp Support ↗</a>
       </div>
     </footer>
 
@@ -1930,6 +1931,7 @@
       let categoryFilter = "all";
       let sortBy = "recent";
       const productImageIndexes = {};
+      const whatsappNumber = "224661615859";
 
       // Éléments DOM
       const productsGrid = document.getElementById("productsGrid");
@@ -1986,9 +1988,9 @@
           <section class="home-hero">
             <div class="home-hero-inner">
               <div class="home-hero-copy">
-                <span class="home-eyebrow">Verified catalog &nbsp;·&nbsp; Kankan, Guinea</span>
+                <span class="home-eyebrow">Verified catalog &nbsp;·&nbsp; Kissidougou, Guinea</span>
                 <h1>The exact part<br>for your motorcycle.<br><strong>Checked before leaving.</strong></h1>
-                <p>Motorcycles, tricycles and spare parts, filtered by compatible model. Delivery in 24 to 48 hours in Kankan.</p>
+                <p>Motorcycles, tricycles and spare parts, filtered by compatible model. Delivery in 24 to 48 hours in Kissidougou.</p>
                 <div class="home-hero-actions">
                   <a class="page-action" href="#pieces">Find a part</a>
                   <a class="secondary-action" href="#motorcycles">See the motorcycles</a>
@@ -2047,7 +2049,7 @@
             <div class="section-divider">Why trust us</div>
             <div class="trust-cards">
               <article class="trust-card"><span class="benefit-icon">♧</span><h3>Secure payment</h3><p>Orange Money &amp; MTN MoMo via LengoPay/Djomy. Server verification required.</p></article>
-              <article class="trust-card"><span class="benefit-icon">♧</span><h3>Fast delivery</h3><p>24–48 hours in Kankan, 48–72 hours for other regions of Guinea.</p></article>
+              <article class="trust-card"><span class="benefit-icon">♧</span><h3>Fast delivery</h3><p>24–48 hours in Kissidougou, 48–72 hours for other regions of Guinea.</p></article>
               <article class="trust-card"><span class="benefit-icon">◎</span><h3>Compatibility verified</h3><p>Parts filtered by exact model. No more part number errors.</p></article>
             </div>
           </section>
@@ -2118,7 +2120,7 @@
               <h1>From the workshop in Kissidougou<br><strong>to the whole country</strong></h1>
               <p>A story of trust born neighborhood by neighborhood in Kissidougou, which today delivers to all regions of Guinea.</p>
               <a class="page-action" href="#motorcycles">Explore the catalog &nbsp;→</a>
-              <a class="about-contact-link" href="https://wa.me/224661615859">Contact us</a>
+              <a class="about-contact-link" href="https://wa.me/224661615859?text=Bonjour%20Moustapha%20Kallo%2C%20j%27ai%20besoin%20d%27informations." target="_blank" rel="noopener">Contact us</a>
             </div>
           </section>
           <section class="about-stats" aria-label="Company figures">
@@ -2159,7 +2161,7 @@
                   <circle cx="330" cy="185" r="10"/><circle cx="190" cy="120" r="6"/><circle cx="245" cy="217" r="6"/><circle cx="412" cy="108" r="6"/><circle cx="470" cy="192" r="6"/><circle cx="390" cy="290" r="6"/><circle cx="130" cy="230" r="6"/>
                 </g>
                 <g fill="#dbe1e8" font-family="Arial,sans-serif" font-size="12">
-                  <text x="342" y="181" fill="#f97316" font-weight="bold">KANKAN (HUB CENTRAL)</text><text x="171" y="111">Labé</text><text x="223" y="238">Kindia</text><text x="393" y="98">Kouroussa</text><text x="477" y="198">Faranah</text><text x="380" y="312">N'Zérékoré</text><text x="101" y="250">Conakry</text>
+                  <text x="342" y="181" fill="#f97316" font-weight="bold">KISSIDOUGOU (HUB CENTRAL)</text><text x="171" y="111">Labé</text><text x="223" y="238">Kindia</text><text x="393" y="98">Kouroussa</text><text x="477" y="198">Faranah</text><text x="380" y="312">N'Zérékoré</text><text x="101" y="250">Conakry</text>
                 </g>
               </svg>
             </div>
@@ -2444,6 +2446,24 @@
         }
       }
 
+      function checkoutOnWhatsApp() {
+        if (cart.length === 0) return;
+
+        const items = cart.map((item) =>
+          `- ${item.name} x${item.quantity} — ${(item.price * item.quantity).toLocaleString("en-US")} GNF`
+        );
+        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const message = [
+          "Bonjour, je souhaite passer cette commande :",
+          "",
+          ...items,
+          "",
+          `Total : ${total.toLocaleString("en-US")} GNF`,
+        ].join("\n");
+
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+      }
+
       // Toggle favori
       function toggleFavorite(productId) {
         if (favorites.includes(productId)) {
@@ -2555,6 +2575,10 @@
           ? "Offers are loading."
           : "No promotions match your filter at the moment.";
       });
+
+      document
+        .querySelector(".checkout-btn")
+        .addEventListener("click", checkoutOnWhatsApp);
 
       // Initialisation
       initCategories();
